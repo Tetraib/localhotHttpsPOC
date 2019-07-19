@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var req = function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://127.0.0.1", true);
+        xhr.send();
+      };
+    </script>
+  </head>
+  <body>
+    <button type="button" onclick="req()">Click Me!</button>
+  </body>
+</html>
