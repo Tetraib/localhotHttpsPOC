@@ -3,16 +3,20 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		enableCors(&w)
-		fmt.Println("Hello")
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Localhost called")
 	})
-
-	http.ListenAndServe(":80", nil)
-}
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	c := cors.New(cors.Options{
+		// AllowedOrigins: []string{"http://foo.com"},
+		// AllowedMethods: []string{"0"},
+	})
+	handler := cors.Default().Handler(mux)
+	handler = c.Handler(handler)
+	http.ListenAndServe(":8080", handler)
 }
